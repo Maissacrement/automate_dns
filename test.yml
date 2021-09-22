@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+
+  dns:
+    build:
+      context: .
+    networks:
+      dns:
+         ipv4_address: 172.30.20.70
+    environment:
+      IP: '172.30.20.70'
+      CIDR: '172.30.20.0/24'
+      DNS_BASE: 'tobelucky.fr'
+      DNS1: 'www:172.30.20.70'
+      DNS2: 'app:172.30.20.5'
+      DNS3: 'frontend:172.30.20.9'
+      DNS4: 'backend:172.30.20.8'
+      ETC: '/etc'
+      BIND_DIR: '/etc/bind'
+
+networks:
+  dns:
+    ipam:
+      config:
+        - subnet: 172.30.20.0/24
+          gateway: 172.30.20.1
