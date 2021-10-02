@@ -1,7 +1,7 @@
 DOCKER:= @docker
 IMAGE=dns
 REGISTRY=registry.gitlab.com/maissacrement
-VERSION=1.0.0
+VERSION=1.0.1
 
 login:
 	${DOCKER} login registry.gitlab.com
@@ -11,6 +11,9 @@ version:
 
 build:
 	${DOCKER} build -t ${IMAGE}:${VERSION} .
+
+pull:
+	${DOCKER} pull ${REGISTRY}/${IMAGE}:latest
 
 dev: build
 	${DOCKER} run -it --rm \
@@ -22,7 +25,7 @@ tag:
 	${DOCKER} tag ${IMAGE}:${VERSION} ${REGISTRY}/${IMAGE}:${VERSION}
 	${DOCKER} tag ${IMAGE}:${VERSION} ${REGISTRY}/${IMAGE}:latest
 
-push: login build
+push: login build tag
 	${DOCKER} push ${REGISTRY}/${IMAGE}:${VERSION}
 	${DOCKER} push ${REGISTRY}/${IMAGE}:latest
 

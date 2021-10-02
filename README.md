@@ -15,3 +15,8 @@ Getting started
 `ETC`: default '/etc' etc path
 
 `BIND_DIR`: default '/etc/bind' bind path
+
+## FIX: 1.0.1
+
+* MOVE RESOLV TO EXTRA_HOST
+* MAKE SURE AVAILABILITY OF BIND AND NGINX

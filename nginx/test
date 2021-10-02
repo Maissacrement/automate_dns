@@ -8,6 +8,12 @@ ssl_certificate /usr/local/nginx/ssl-cert/www.myst.yana.crt;
 ssl_certificate_key /usr/local/nginx/ssl-cert/www.myst.yana.key;
 ssl_trusted_certificate /usr/local/nginx/ssl-cert/ca.crt;
 
+upstream backend {
+    server   172.37.20.1 backup;
+    jdomain  base.myst.yana port=5050;
+    # keepalive 10;
+}
+
 server {
     listen       80;
     server_name  base.myst.yana;
@@ -18,11 +24,10 @@ server {
     listen              443 ssl http2 default_server;
     server_name         _;
 
-    set $upstream "http://base.myst.yana:5050";
     location / {
         # proxy_pass_header Authorization;
-        proxy_pass $upstream;
-        proxy_set_header Host $http_host;
+        proxy_pass http://$backend;
+        proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }

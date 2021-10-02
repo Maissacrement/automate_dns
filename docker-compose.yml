@@ -5,12 +5,10 @@ services:
     networks:
       dnsserver:
          ipv4_address: 172.100.30.10 # hello world static ip
-    ports:
-      - 7777:80
 
   dns:
     image: registry.gitlab.com/maissacrement/dns
-    domainname: example.com
+    domainname: myst.yana
     hostname: dns
     ipc: host
     privileged: true
@@ -22,8 +20,10 @@ services:
     environment:
       IP: '172.100.30.2' # ip dns server
       CIDR: '172.100.30.0/24' # ip address auth range
-      DNS_BASE: 'example.com' # dns server base name
-      DNS1: 'www:172.100.30.1' # [subdomain]:[targetedIp]
+      DNS_BASE: 'myst.yana' # dns server base name
+      DNS1: 'base:172.100.30.10' # [subdomain]:[targetedIp]
+    extra_hosts:
+      - "base.myst.yana:172.100.30.2"
 
 networks:
   dnsserver:

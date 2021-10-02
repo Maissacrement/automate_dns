@@ -1,11 +1,16 @@
 #!/usr/bin/python3.8
 from src.bindFactory.dnsInitiator import DnsInitiator
-from src.bindFactory.hostsInitiator import HostsInitiator
+#from src.bindFactory.hostsInitiator import HostsInitiator
 from src.bindFactory.localconfInitiator import LocalconfInitiator
 from src.bindFactory.resolverInitiator import ResolverInitiator
 from loadenv import targetStartswithEnv, truncDomainAndIPV4, getEnviron
 
-# Load environment variables
+# EXTERNAL LIB
+import dns.resolver
+import subprocess
+import os
+
+## Load environment variables
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -30,18 +35,20 @@ if __name__ == "__main__":
 
     if getEnviron('DNS1') and DNS_BASE:
 
+        #1 INSERT DNS CONFIG
+
         # DNS 0
         # Master
         base=DnsInitiator(DNS_BASE, dnsToStr('DNS1'))
-        host=HostsInitiator(DNS_BASE)
+        #host=HostsInitiator(DNS_BASE)
         def append(subdomain, ipv4):
-            host.append(subdomain, ipv4) 
+            #host.append(subdomain, ipv4) 
             base.append(subdomain, ipv4)
 
 
         [append(subdomain, ipv4) for (subdomain, ipv4) in subdomainAndIPV4]
         write('{}/{}'.format(BIND_DIR, 'www.{}'.format(getEnviron('DNS_BASE'))), base.dns)
-        write('{}'.format(HOSTS_DIR), host.payload, 'a')
+        #write('{}'.format(HOSTS_DIR), host.payload, 'a')
 
         # Reverse
         base=DnsInitiator(DNS_BASE, DNS, origin=False)
@@ -53,8 +60,23 @@ if __name__ == "__main__":
         write('{}/{}'.format(BIND_DIR, 'named.conf.local'), localconf.resolver)
 
         resolve=ResolverInitiator()
-        resolve.append("tobelucky.fr", IP)
+        resolve.append(DNS_BASE, IP)
         write('{}/{}'.format(ETC, 'resolv.conf'), resolve.resolver)
+
+        #2 CHECK IF DNS CONFIG IS UP
+        UP=False
+        while(not UP):
+            os.system('/etc/init.d/bind restart')
+            if len(dns.resolver.resolve(dnsToStr('DNS1'), 'A') or []):
+                UP=True
+        
+        NGINX=False
+        while(not NGINX):
+            os.system('/usr/local/nginx/sbin/nginx')
+            if subprocess.check_output("netstat -tupln | grep nginx | wc -l", shell=True):
+                NGINX=True
+
+
 
 
 
