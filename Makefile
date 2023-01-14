@@ -18,8 +18,8 @@ pull:
 dev: build
 	${DOCKER} run -it --rm \
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
-		-e DISPLAY=${DISPLAY} \
-	${IMAGE}:${VERSION}
+		-e DISPLAY=${DISPLAY} --entrypoint /bin/bash \
+	${IMAGE}:${VERSION} 
 
 tag:
 	${DOCKER} tag ${IMAGE}:${VERSION} ${REGISTRY}/${IMAGE}:${VERSION}
