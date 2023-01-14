@@ -33,4 +33,8 @@ RUN touch /var/run/nginx.pid
 
 RUN apt install -y libiscsi-dev
 
+RUN ln -s /usr/local/sbin/named /usr/sbin/named &&\
+    cp /etc/bind/named.conf /usr/local/etc/ &&\
+    mkdir /var/cache/bind
+
 ENTRYPOINT ["./entrypoint.sh"]
