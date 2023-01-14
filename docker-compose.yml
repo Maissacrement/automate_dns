@@ -13,7 +13,9 @@ services:
         ipv4_address: 172.100.30.58 # hello world static ip
 
   dns:
-    image: registry.gitlab.com/maissacrement/dns
+    #image: registry.gitlab.com/maissacrement/dns
+    build:
+      context: .
     domainname: myst.yana
     network_mode: host
     hostname: dns
