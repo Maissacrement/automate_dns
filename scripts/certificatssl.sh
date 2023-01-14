@@ -16,9 +16,9 @@ distinguished_name = req_distinguished_name
 C = US
 ST = VA
 L = Paris
-O = Lukyyou, Inc.
+O = RFtoolkit, Inc.
 OU = Tech
-CN = mayanatech.ddns.net
+CN = rftoolkit.ddns.net
 [v3_req]
 keyUsage = critical, digitalSignature, keyAgreement
 extendedKeyUsage = serverAuth
@@ -37,7 +37,7 @@ distinguished_name = req_distinguished_name
 C = US
 ST = CA
 L = Paris
-O = Lukyyou, Inc.
+O = RFtoolkit, Inc.
 OU = Tech
 CN = www.${DNS_BASE}
 
@@ -60,7 +60,7 @@ ls ${location}
 # Generate server 
 echo "GENERATE SERVER SSL CERTS"
 openssl genrsa -out ${location}/$DNS.key 2048
-openssl req -new -sha256 -subj "/C=US/ST=CA/O=Luckyyou, Inc./CN=$DNS" -config ${location}/server.cnf -key ${location}/$DNS.key -out ${location}/$DNS.csr
+openssl req -new -sha256 -subj "/C=US/ST=CA/O=RFtoolkit, Inc./CN=$DNS" -config ${location}/server.cnf -key ${location}/$DNS.key -out ${location}/$DNS.csr
 
 openssl req -in ${location}/$DNS.csr -noout -text
 openssl req -text -noout -verify -in ${location}/$DNS.csr
