@@ -22,10 +22,12 @@ RUN autoreconf -fi &&\
 
 ##### UPGRADE BIND9
 
+RUN rm -rvf /app
 WORKDIR /app
-COPY ./* ./
+COPY . .
 
 RUN chmod +x ./entrypoint.sh &&\
+    chmod -R 755 /etc/bind/rndc.key &&\
     cp -r ./etc/bind/* /etc/bind/ &&\
     cp /etc/bind/rndc.key /usr/etc/rndc.key
 
