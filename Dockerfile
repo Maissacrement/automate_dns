@@ -15,7 +15,7 @@ RUN apt update &&\
 WORKDIR /opt/bind
 
 RUN autoreconf -fi &&\
-    ./configure &&\
+    ./configure --prefix=/usr &&\
     make &&\
     make install &&\
     ldconfig
@@ -34,8 +34,7 @@ RUN touch /var/run/nginx.pid
 
 RUN apt install -y libiscsi-dev
 
-RUN ln -s /usr/local/sbin/named /usr/sbin/named &&\
-    cp /etc/bind/named.conf /usr/local/etc/ &&\
+RUN cp /etc/bind/named.conf /usr/etc/ &&\
     mkdir /var/cache/bind
 
 ENTRYPOINT ["./entrypoint.sh"]
