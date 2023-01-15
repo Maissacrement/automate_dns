@@ -2,7 +2,7 @@
 
 ## Intro
 
-Once the conteur is launched you can propagate the dns on your machine by modifying the path /etc/resolv.conf 
+Once the container is launched you can propagate the dns on your machine by modifying the path /etc/resolv.conf 
 
 In order to make the dns identifiable you will need to mention the ip address of the dns server via the nameserver entry
 
