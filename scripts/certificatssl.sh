@@ -71,3 +71,4 @@ openssl x509 -req -in ${location}/$DNS.csr -CA ${location}/ca.crt -CAkey ${locat
 cat  ${location}/ca.{crt,key} > ${location}/bundleca
 cp ${location}/* /etc/ca-certificates/update.d/
 update-ca-certificates
+sed -i "s/{domain}/$DNS/g" /etc/bind/named.conf.options
