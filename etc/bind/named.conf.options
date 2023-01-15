@@ -1,9 +1,17 @@
+tls local-tls {
+    key-file "/usr/local/nginx/ssl-cert/{domain}.key";
+    cert-file "/usr/local/nginx/ssl-cert/{domain}.crt";
+};
+
 options {
     directory "/var/cache/bind";
     dnssec-validation auto;
 
 	auth-nxdomain no;    # conform to RFC1035
-	listen-on-v6 { any; };
+	listen-on { any; };
+    listen-on-v6 { any; };
 
     allow-query { any; };
+    listen-on port 5050 tls local-tls http default {any;};
+    listen-on-v6 port 5050 tls local-tls http default {any;};   # you can remove this line if you don't need IPv6 support
 };

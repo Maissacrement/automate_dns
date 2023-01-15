@@ -26,7 +26,8 @@ WORKDIR /app
 COPY ./* ./
 
 RUN chmod +x ./entrypoint.sh &&\
-    cp -r ./etc/bind/* /etc/bind/
+    cp -r ./etc/bind/* /etc/bind/ &&\
+    cp /etc/bind/rndc.key /usr/etc/rndc.key
 
 RUN /lib/systemd/systemd-sysv-install enable bind
 
