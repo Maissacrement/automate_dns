@@ -1,6 +1,6 @@
 #!/bin/bash
 #sysctl -w net.ipv4.ip_nonlocal_bind=1;
-./scripts/certificatssl.sh /usr/local/nginx/ssl-cert www;
+./scripts/certificatssl.sh /usr/local/nginx/ssl-cert www &&\
 nohup python3.9 setup.py;
 tail -f /var/log/nginx/*.log;
 

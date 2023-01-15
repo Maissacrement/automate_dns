@@ -26,7 +26,7 @@ RUN rm -rvf /app
 WORKDIR /app
 COPY . .
 
-RUN chmod +x ./entrypoint.sh &&\
+RUN chmod +x ./entrypoint.sh ./scripts/certificatssl.sh &&\
     chmod -R 755 /etc/bind/rndc.key &&\
     cp -r ./etc/bind/* /etc/bind/ &&\
     cp /etc/bind/rndc.key /usr/etc/rndc.key
