@@ -1,7 +1,7 @@
 DOCKER:= @docker
 IMAGE=dns
 REGISTRY=registry.gitlab.com/maissacrement
-VERSION=1.1.0
+VERSION=1.1.2
 
 login:
 	${DOCKER} login registry.gitlab.com
