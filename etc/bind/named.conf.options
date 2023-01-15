@@ -12,6 +12,6 @@ options {
     listen-on-v6 { any; };
 
     allow-query { any; };
-    listen-on port 5050 tls local-tls http default {any;};
-    listen-on-v6 port 5050 tls local-tls http default {any;};   # you can remove this line if you don't need IPv6 support
+    listen-on port 853 tls local-tls http default {any;};
+    listen-on-v6 port 853 tls local-tls http default {any;};   # you can remove this line if you don't need IPv6 support
 };
