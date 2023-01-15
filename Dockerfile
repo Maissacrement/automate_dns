@@ -23,9 +23,10 @@ RUN autoreconf -fi &&\
 ##### UPGRADE BIND9
 
 WORKDIR /app
-COPY ./entrypoint.sh ./entrypoint.sh
+COPY ./* ./
 
-RUN chmod +x ./entrypoint.sh
+RUN chmod +x ./entrypoint.sh &&\
+    cp -r ./etc/bind/* /etc/bind/
 
 RUN /lib/systemd/systemd-sysv-install enable bind
 

@@ -37,28 +37,28 @@ if __name__ == "__main__":
 
         #1 INSERT DNS CONFIG
 
-        # DNS 0
-        # Master
+        # Create Master Nodes
         base=DnsInitiator(DNS_BASE, dnsToStr('DNS1'))
-        #host=HostsInitiator(DNS_BASE)
-        def append(subdomain, ipv4):
-            #host.append(subdomain, ipv4) 
-            base.append(subdomain, ipv4)
+        # Init master dns registers (others dns linked to master)
+        [base.append(subdomain, ipv4) for (subdomain, ipv4) in subdomainAndIPV4]
+        base.dns+="\n"
+        print(base.dns)
 
-
-        [append(subdomain, ipv4) for (subdomain, ipv4) in subdomainAndIPV4]
         write('{}/{}'.format(BIND_DIR, 'www.{}'.format(getEnviron('DNS_BASE'))), base.dns)
-        #write('{}'.format(HOSTS_DIR), host.payload, 'a')
 
         # Reverse
         base=DnsInitiator(DNS_BASE, DNS, origin=False)
         base.append('www', 'www.{}'.format(getEnviron('DNS_BASE')), 'PTR')
         write('{}/www.{}'.format(BIND_DIR, '.'.join(IP.split('.')[-2::-1])), base.dns)
+        base.dns+="\n"
+        print(base.dns)
 
+        # Create conf
         localconf=LocalconfInitiator()
         localconf.append(DNS, CIDR.split('/')[:1][0])
         write('{}/{}'.format(BIND_DIR, 'named.conf.local'), localconf.resolver)
 
+        # Create resolver
         resolve=ResolverInitiator()
         resolve.append(DNS_BASE, IP)
         write('{}/{}'.format(ETC, 'resolv.conf'), resolve.resolver)
@@ -66,7 +66,7 @@ if __name__ == "__main__":
         #2 CHECK IF DNS CONFIG IS UP
         UP=False
         while(not UP):
-            os.system('/etc/init.d/bind restart')
+            os.system('named -g &')
             if len(dns.resolver.resolve(dnsToStr('DNS1'), 'A') or []):
                 UP=True
         
