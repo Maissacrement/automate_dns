@@ -1,7 +1,7 @@
 #!/bin/bash
 #sysctl -w net.ipv4.ip_nonlocal_bind=1;
 
-if [[ ! -z"${CUSTOM_CERT}" ]]; then
+if [ "${CUSTOM_CERT}" != "false" ]; then
 ./scripts/certificatssl.sh /usr/local/nginx/ssl-cert www
 else
 sed -i "s/\/usr\/local\/nginx\/ssl-cert\/{domain}.key/${CUSTOM_KEY_FILE}/g" /etc/bind/named.conf.options
