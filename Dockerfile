@@ -40,4 +40,4 @@ RUN apt install -y libiscsi-dev
 RUN cp /etc/bind/named.conf /usr/etc/ &&\
     mkdir /var/cache/bind
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["./entrypoint.sh"]

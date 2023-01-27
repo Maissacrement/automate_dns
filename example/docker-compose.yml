@@ -1,38 +1,54 @@
 version: '3.9'
 services:
-  server0:
-    image: robertshand/python-hello-world
-    networks:
-      dnsserver:
-        ipv4_address: 172.100.30.10 # hello world static ip
-
-  server1:
-    image: robertshand/python-hello-world
-    networks:
-      dnsserver:
-        ipv4_address: 172.100.30.58 # hello world static ip
-
   dns:
-    image: registry.gitlab.com/maissacrement/dns:latest
+    image: registry.gitlab.com/maissacrement/dns:1.1.7
+    #build:
+    #  context: .
     domainname: myst.yana
-    network_mode: host
     hostname: dns
     ipc: host
     privileged: true
+    volumes:
+      - ./example.site/ssl:/usr/local/nginx/ssl-cert:rw
+    networks:
+      dnsserver:
+        ipv4_address: 172.100.80.2
     environment:
-      IP: '172.100.30.1' # ip of dns server
-      CIDR: '172.100.30.0/24' # ip address auth range
+      IP: '172.100.80.2' # ip of dns server
+      CIDR: '172.100.80.0/24' # ip address auth range
       DNS_BASE: 'myst.yana' # dns server base name
-      DNS1: 'www:172.100.30.10' # [subdomainPrefix]:[targetedIp]
-      DNS2: 'reduncy:172.100.30.58' # [subdomainPrefix]:[targetedIp]
+      DNS1: 'www:172.100.80.10' # [subdomain]:[targetedIp]
+      DNS2: 'reduncy:172.100.80.20' # [subdomain]:[targetedIp]
     extra_hosts:
-      - "www.myst.yana:172.100.30.10" # container server0
-      - "reduncy.myst.yana:172.100.30.58" # container server1
+      - "www.myst.yana:172.100.80.10"
+      - "reduncy.myst.yana:172.100.80.20"
+
+  site1:
+    build:
+      context: ./example.site
+    depends_on:
+      - dns
+    volumes:
+      - ./example.site/ssl:/app/ssl:ro
+    networks:
+      dnsserver:
+        ipv4_address: 172.100.80.20 # hello world static ip
+
+  site2:
+    build:
+      context: ./example.site
+    depends_on:
+      - dns
+    volumes:
+      - ./example.site/ssl:/app/ssl:ro
+    networks:
+      dnsserver:
+        ipv4_address: 172.100.80.10 # hello world static ip
 
 networks:
   dnsserver:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.100.30.0/24
-          gateway: 172.100.30.1
+        - subnet: 172.100.80.0/24
+          gateway: 172.100.80.1

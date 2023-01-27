@@ -8,7 +8,8 @@ sed -i "s/\/usr\/local\/nginx\/ssl-cert\/{domain}.key/${CUSTOM_KEY_FILE}/g" /etc
 sed -i "s/\/usr\/local\/nginx\/ssl-cert\/{domain}\.crt/${CUSTOM_CERT_FILE}/g" /etc/bind/named.conf.options
 fi
 
-nohup python3.9 setup.py;
+cat /etc/bind/named.conf.options
+python3.9 setup.py &
 tail -f /var/log/nginx/*.log;
 
 

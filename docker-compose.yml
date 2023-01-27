@@ -1,35 +1,49 @@
 version: '3.9'
 services:
-  python:
-    image: robertshand/python-hello-world
+  site1:
+    build:
+      context: ./example/example.site
+    depends_on:
+      - dns
+    volumes:
+      - ./example/example.site/ssl:/app/ssl:ro
+    networks:
+      dnsserver:
+        ipv4_address: 172.100.30.20 # hello world static ip
+
+  site2:
+    build:
+      context: ./example/example.site
+    depends_on:
+      - dns
+    volumes:
+      - ./example/example.site/ssl:/app/ssl:ro
     networks:
       dnsserver:
         ipv4_address: 172.100.30.10 # hello world static ip
 
-  python2:
-    image: robertshand/python-hello-world
-    networks:
-      dnsserver:
-        ipv4_address: 172.100.30.58 # hello world static ip
-
   dns:
-    #image: registry.gitlab.com/maissacrement/dns
-    build:
-      context: .
+    image: registry.gitlab.com/maissacrement/dns:1.1.7
+    #build:
+    #  context: .
     domainname: myst.yana
-    network_mode: host
     hostname: dns
     ipc: host
     privileged: true
+    volumes:
+      - ./example/example.site/ssl:/usr/local/nginx/ssl-cert:rw
+    networks:
+      dnsserver:
+        ipv4_address: 172.100.30.2
     environment:
-      IP: '172.100.30.1' # ip of dns server
+      IP: '172.100.30.2' # ip of dns server
       CIDR: '172.100.30.0/24' # ip address auth range
       DNS_BASE: 'myst.yana' # dns server base name
       DNS1: 'www:172.100.30.10' # [subdomain]:[targetedIp]
-      DNS2: 'reduncy:172.100.30.58' # [subdomain]:[targetedIp]
+      DNS2: 'reduncy:172.100.30.20' # [subdomain]:[targetedIp]
     extra_hosts:
       - "www.myst.yana:172.100.30.10"
-      - "reduncy.myst.yana:172.100.30.58"
+      - "reduncy.myst.yana:172.100.30.20"
 
 networks:
   dnsserver:

@@ -1,7 +1,7 @@
 DOCKER:= @docker
 IMAGE=dns
 REGISTRY=registry.gitlab.com/maissacrement
-VERSION=1.1.2
+VERSION=1.1.7
 
 login:
 	${DOCKER} login registry.gitlab.com
@@ -15,11 +15,11 @@ build:
 pull:
 	${DOCKER} pull ${REGISTRY}/${IMAGE}:latest
 
-dev: build
+dev:
 	${DOCKER} run -it --rm \
 		-v /tmp/.X11-unix:/tmp/.X11-unix \
 		-e DISPLAY=${DISPLAY} --entrypoint /bin/bash \
-	${IMAGE}:${VERSION} 
+	${IMAGE}:${VERSION} ./entrypoint.sh
 
 tag:
 	${DOCKER} tag ${IMAGE}:${VERSION} ${REGISTRY}/${IMAGE}:${VERSION}

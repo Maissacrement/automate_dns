@@ -8,10 +8,10 @@ options {
     dnssec-validation auto;
 
 	auth-nxdomain no;    # conform to RFC1035
-	listen-on port 53 { 127.0.0.1; 172.17.0.3; };
+	listen-on port 53 { 127.0.0.1; 172.100.30.2; };
     listen-on-v6 { any; };
 
     allow-query { any; };
-    listen-on port 853 tls local-tls http default {any;};
-    listen-on-v6 port 853 tls local-tls http default {any;};   # you can remove this line if you don't need IPv6 support
+    listen-on port 443 tls local-tls http default {127.0.0.1; 172.100.30.2;};
+    listen-on-v6 port 443 tls local-tls http default {any;};   # you can remove this line if you don't need IPv6 support
 };

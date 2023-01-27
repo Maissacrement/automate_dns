@@ -1,0 +1,21 @@
+x509_extensions = v3_req
+prompt = no
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+C = US
+ST = VA
+L = Paris
+O = RFtoolkit, Inc.
+OU = Tech
+CN = rftoolkit.ddns.net
+[v3_req]
+keyUsage = critical, digitalSignature, keyAgreement
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = www.myst.yana
+DNS.2 = *.myst.yana
+DNS.3 = myst.yana
+DNS.4 = 172.100.30.2

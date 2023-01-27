@@ -67,8 +67,11 @@ if __name__ == "__main__":
         UP=False
         while(not UP):
             os.system('named -g &')
-            if len(dns.resolver.resolve(dnsToStr('DNS1'), 'A') or []):
-                UP=True
+            try:
+                if len(dns.resolver.resolve(dnsToStr('DNS1'), 'A') or []):
+                    UP=True
+            except:
+                pass
         
         NGINX=False
         while(not NGINX):
