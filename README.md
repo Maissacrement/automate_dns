@@ -4,11 +4,13 @@
 
 ## Intro
 
-Once the container is launched you can propagate the dns on your machine by modifying the path /etc/resolv.conf 
+Once the container is up and running, you can establish a connection to your machine through DNS by making modifications to the '/etc/resolv.conf' file. It's essential to specify the "nameserver" field with the IP address of your DNS server, ensuring that all queries are routed through your DNS.
 
-In order to make the dns identifiable you will need to mention the ip address of the dns server via the nameserver entry
+This innovative concept enables DNS-based communication even within a private network, facilitating communication between machines in your cluster via DNS.
 
-nameserver `dnsip`
+This approach allows you to fully leverage the capabilities of your DNS.
+
+nameserver `dnsip` # /etc/resolv.conf
 
 <br />
  <table>
