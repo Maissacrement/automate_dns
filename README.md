@@ -1,5 +1,7 @@
 # Automated bind DNS
 
+<td></td>
+
 ## Intro
 
 Once the container is launched you can propagate the dns on your machine by modifying the path /etc/resolv.conf 
@@ -7,6 +9,19 @@ Once the container is launched you can propagate the dns on your machine by modi
 In order to make the dns identifiable you will need to mention the ip address of the dns server via the nameserver entry
 
 nameserver `dnsip`
+
+<br />
+ <table>
+  <tr>
+    <th>How to use it</th>
+    <th>How it's work</th>
+  </tr>
+  <tr>
+    <td><img src='assets/1673953262694.gif'></td>
+    <td><img style="height:500px" src='assets/dnsoverhttps.png'></td>
+  </tr>
+</table> 
+<br />
 
 ## Docker Parameter 
 
