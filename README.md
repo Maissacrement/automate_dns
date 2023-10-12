@@ -20,6 +20,10 @@ nameserver `dnsip`
     <td><img src='assets/1673953262694.gif'></td>
     <td><img style="height:500px" src='assets/dnsoverhttps.png'></td>
   </tr>
+  <tr>
+    <td>To connect to your DNS, make sure to modify '/etc/resolv.conf' on your machine.</td>
+    <td>Assign a DNS name to each container that has been referenced. This will enable connected users to easily address a container using its DNS name.</td>
+  </tr>
 </table> 
 <br />
 
